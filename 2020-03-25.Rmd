@@ -26,3 +26,89 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+# 10位學生的主系
+majors10_char <- c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+
+typeof(majors10_char)
+class(majors10_char)
+```
+
+
+```{r}
+majors10_factor <- factor(majors10_char)
+# 或
+majors10_factor <- factor(
+  c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+)
+
+typeof(majors10_factor)
+class(majors10_factor)
+```
+```{r}
+levels(majors10_factor)
+```
+
+#class/type conversation
+```{r}
+stringInteger <- c("1","2","-11")
+class(stringInteger) # 無法進行數值運算
+as.numeric(stringInteger)+2
+```
+
+```{r}
+stringInteger <- c(1,2,-11)
+class(stringInteger) # 無法進行數值運算
+stringInteger+2
+```
+
+```{r}
+studentId <- c(410773002, 410773015)
+studentId <- as.character(studentId)
+class(studentId)
+```
+
+```{r}
+library(lubridate)
+
+```
+台北  2020-03-18 13:52:40
+```{r}
+tpeDateTime <- ymd_hms("2020-03-18 13:52:40",tz="Asia/Taipei")
+class(tpeDateTime)
+
+```
+
+葡萄牙 Mar.18, 2020, 05:52:40
+```{r}
+pgDateTime <- mdy_hms("Mar.18, 2020, 05:52:40",tz="Europe/Lisbon")
+```
+
+```{r}
+with_tz(tpeDateTime, tzone="UTC")
+with_tz(pgDateTime, tzone="UTC")
+```
+
+#T和Z在中間就已經是UTC了，不用在指定時區
+```{r}
+created_at <- ymd_hms("2020-03-04T06:56:29Z")
+firstCommit <- ymd_hms("2020-03-18 13:37:12" ,tz="Asia/Taipei")
+lastCommit <- ymd_hms("2020-03-18 15:03:23",tz="Asia/Taipei")
+studentTime <- c(created_at,firstCommit,lastCommit)
+studentTime
+```
+
+
+```{r}
+studentTime<- c(ymd_hms("2020-03-04T06:56:29Z"),
+                ymd_hms("2020-03-18 13:37:12" ,tz="Asia/Taipei"),
+                ymd_hms("2020-03-18 15:03:23",tz="Asia/Taipei"))
+studentTime
+```
+
+
+
+
+
