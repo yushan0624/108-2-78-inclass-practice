@@ -1,5 +1,5 @@
 ---
-title: "chapter3"
+title: '2020-03-25'
 output: html_document
 ---
 
@@ -26,26 +26,3 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-```{r}
-library(googlesheets4)
-library(dplyr)
-library(lubridate)
-
-```
-
-```{r}
-library(readr)
-exDataPost80s <- read_csv("https://www.dropbox.com/s/rc6t40gsxduysz6/exDataPost80s.csv?dl=1")
-View(exDataPost80s)
-
-```
-
-```{r}
-library(readr)
-hypothesisData <- read_csv("https://www.dropbox.com/s/0etoflih5eqc0bc/hypothesisData.csv?dl=1")
-View(hypothesisData)
-
-```
-
-
