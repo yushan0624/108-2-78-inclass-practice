@@ -1,0 +1,8 @@
+"0","law <- badEmployers$law == ""勞動基準法第32條第2項"""
+"0","mostViolatedArticle_content <-"
+"0","  levels(factor(badEmployers$lawContent[law]))"
+"0","mostViolatedArticle_content"
+"1","[1]"
+"1"," ""延長工作時間超過法令規定"""
+"1","
+"

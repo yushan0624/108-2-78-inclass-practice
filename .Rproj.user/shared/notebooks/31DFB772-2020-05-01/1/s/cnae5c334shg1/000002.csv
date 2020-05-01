@@ -1,0 +1,7 @@
+"0","pick_na <- is.na(list_victimAges_female$數目)"
+"0","total_na <- sum(pick_na)"
+"0","print(total_na)"
+"1","[1]"
+"1"," 52"
+"1","
+"

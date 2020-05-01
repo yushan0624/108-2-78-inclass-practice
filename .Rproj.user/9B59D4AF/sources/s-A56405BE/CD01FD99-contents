@@ -1,0 +1,100 @@
+---
+title: "chapter3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(googlesheets4)
+library(dplyr)
+library(lubridate)
+
+```
+
+```{r}
+library(readr)
+exDataPost80s <- read_csv("https://www.dropbox.com/s/rc6t40gsxduysz6/exDataPost80s.csv?dl=1")
+View(exDataPost80s)
+
+```
+
+```{r}
+library(readr)
+hypothesisData <- read_csv("https://www.dropbox.com/s/0etoflih5eqc0bc/hypothesisData.csv?dl=1")
+View(hypothesisData)
+
+```
+
+
+```{r}
+num1<-5 # 非整數
+num2<-5L # 整數
+
+num1Vector<-c(5,6,7)
+num2Vector<-c(5L,6L,7L)
+```
+
+```{r}
+char1<-"你好"
+char2<-'你好'
+char1Vector<-c("你好","How are you?")
+```
+
+
+
+```{r}
+library(httr)
+library(dplyr)
+GET("https://api.github.com/repos/tpemartin/108-2-56-inclass-practice/commits") %>%
+  content() %>%
+  View()
+```
+
+```{r}
+logi1 <- c(T,TRUE,F,FALSE,FALSE)
+```
+
+```{r}
+num <- c(1.5, 2, 3)
+int <- c(1L, 3L, -2L)
+char <- c("1.5","2","3")
+logi <- c(T,T,F)
+
+#電腦紀錄的格式,double就是numeric
+typeof(num)  #數字
+typeof(int)  #整數
+typeof(char)  #字串
+typeof(logi)  #對錯
+```
+
+```{r}
+#自己看得到的格式
+class(num)
+class(int)
+class(char)
+class(logi)
+```
+

@@ -1,0 +1,3 @@
+"0","set_LawBusiness <- c(""法學院"",""商學院"")"
+"0","pick_LawBusiness <- "
+"0","  transcript100to103$學院 %in% set_LawBusiness"
