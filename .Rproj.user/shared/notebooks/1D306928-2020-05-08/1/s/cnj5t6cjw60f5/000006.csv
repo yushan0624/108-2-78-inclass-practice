@@ -1,0 +1,7 @@
+"0","myRegexSlotMachine <- ""[0-9]+號"""
+"0","print(myRegexSlotMachine)"
+"1","[1]"
+"1"," ""[0-9]+號"""
+"1","
+"
+"0","str_view_all(addresses,myRegexSlotMachine)"

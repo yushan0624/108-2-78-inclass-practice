@@ -1,0 +1,8 @@
+"0","# 目標是後面的唧唧"
+"0","target_regex2 <- ""唧唧"""
+"0","pattern2 <- glue::glue(""{target_regex2}$"")"
+"0","print(pattern2)"
+"1","唧唧$"
+"1","
+"
+"0","str_view(phrase, pattern2) "

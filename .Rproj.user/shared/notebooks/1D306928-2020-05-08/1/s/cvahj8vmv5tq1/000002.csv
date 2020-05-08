@@ -1,0 +1,12 @@
+"0","heartSutra <- c(""舍利子，色不異空，空不異色；色即是空，空即是色。"")"
+"0","str_view_all(heartSutra,""色"") # 檢視"
+"2","Registered S3 methods overwritten by 'htmltools':
+  method               from         
+  print.html           tools:rstudio
+  print.shiny.tag      tools:rstudio
+  print.shiny.tag.list tools:rstudio
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
