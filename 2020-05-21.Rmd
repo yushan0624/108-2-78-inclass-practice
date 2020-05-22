@@ -152,3 +152,74 @@ str_replace(currentLevels2,"台中","中部") -> regionLevels
 regionLevels -> levels(region)
 ```
 
+```{r}
+levels(region) %>% 
+  str_replace(.,"台北","北部") %>%
+  str_replace(.,"花蓮|台東","東部") %>%
+  str_replace(.,"台中","中部") ->levels(region)
+
+levels(region) %>% 
+  str_replace("台北","北部") %>%
+  str_replace("花蓮|台東","東部") %>%
+  str_replace("台中","中部") ->levels(region)
+
+```
+
+
+##元素萃取
+```{r}
+num <- c(2,97,22,15,7)
+
+# 選出大於50的數字
+(num > 50) -> pick_big
+num[pick_big]
+
+(num > 50) %>%
+  num[.]
+```
+
+```{r}
+# 資料
+population <- c(`cityA`=500,`cityB`=1500, `cityC`=399)
+cities <- c("cityA","cityA","cityB","cityB","cityC")
+
+# 分析步驟
+names(sort(population)) -> setLevels
+factor(cities, levels = setLevels) -> cities 
+```
+
+```{r}
+names(sort(population)) %>%
+  factor(cities, levels = .) -> cities  
+```
+
+```{r}
+population %>%
+  sort() %>%
+  names() %>%
+  factor(cities, levels=.) -> cities
+```
+
+不是單一函數(用大括號))
+```{r}
+population %>% 
+  {names(sort(.))} %>%
+  factor(cities, levels=.) -> cities
+```
+
+```{r}
+dataList <- list(
+  num=c(2,97,22,15,7),
+  chr=c("2","97","22","15","7")
+)
+```
+
+```{r}
+map(dataList, is.numeric) -> results
+unlist(results) -> pick_numeric
+
+dataList[pick_numeric] -> num_element
+(num_element[[1]] > 50) -> pick_big
+num_element[[1]][pick_big] -> bigNumber
+```
+
