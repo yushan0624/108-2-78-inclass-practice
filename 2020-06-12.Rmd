@@ -1,0 +1,215 @@
+---
+title: '2020-06-12'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+```{r}
+library(stringr)
+```
+
+##5.3 if(true才會執行)
+學號 4or3  90~119  73108
+```{r}
+# 先執行此行輸入學號
+readline(prompt = "請輸入你的學號") -> studentId 
+
+# 之後才執行以下程式
+if(
+  str_detect(studentId,'^[43](1[01][0-9]|9[0-9])[0-9]{5}$',negate=T) # condition: 是否輸入學號正確？
+) {
+  warning("你所輸入的學號不正確")
+}
+```
+
+```{r}
+if(!require(lubridate)){ # condition: 是否「沒安裝lubridate」？
+  install.packages("lubridate")
+}
+lubridate::ymd_hms("2020-07-01 13:00:00 GMT")
+```
+
+```{r}
+if (!exists("weather_next36hours")) {
+    weather_next36hours <- jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON")
+
+   SOAR::Store(weather_next36hours)  # 存在.R_cache environment中
+}
+```
+
+
+
+```{r}
+askSilly_weather <- function(locationInput, dateInput) {
+    weather_next36hours <- jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON")
+    
+    pick_location <- (weather_next36hours$cwbopendata$dataset$location$locationName == 
+        locationInput)
+    
+    weatherAtLocation <- weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]]
+    pick_MaxT <- (weatherAtLocation$elementName == "MaxT")
+    pick_MinT <- (weatherAtLocation$elementName == "MinT")
+    maxT <- weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]]
+    minT <- weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]]
+    
+    glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+}
+```
+
+```{r}
+askSilly_weather2 <- function(locationInput, dateInput) {
+    if (!exists("weather_next36hours")) {
+        weather_next36hours <- jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON")
+        SOAR::Store(weather_next36hours)  # 存在.R_cache environment中
+    }
+    pick_location <- (weather_next36hours$cwbopendata$dataset$location$locationName == 
+        locationInput)
+    
+    weatherAtLocation <- weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]]
+    pick_MaxT <- (weatherAtLocation$elementName == "MaxT")
+    pick_MinT <- (weatherAtLocation$elementName == "MinT")
+    maxT <- weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]]
+    minT <- weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]]
+    
+    glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+}
+```
+
+##if else
+if(condition){
+  body for TRUE condition
+} else {
+  body for FALSE condition
+}
+```{r}
+n <- 33
+if (as.logical(n%%2==1)) {   #奇數
+    fvalue <- -(n + 1)/2
+} else {
+    fvalue <- n/2
+}
+```
+
+通常0是false 1是true
+```{r}
+myFun <- function(n) {
+    if (as.logical(n%%2)) {
+        fvalue <- -(n + 1)/2
+    } else {
+        fvalue <- n/2
+    }
+    return(fvalue)
+}
+
+myFun(54)
+myFun(33)
+```
+
+```{r}
+examSubmissionTime <- jsonlite::fromJSON("https://www.dropbox.com/s/d14j5hp3i5ps657/examSubmissionTimes.json?dl=1")
+
+
+head(examSubmissionTime$section)
+head(examSubmissionTime$time)
+```
+
+```{r}
+i <- 1
+student_i_section <- examSubmissionTime$section[[i]]
+student_i_time <- examSubmissionTime$time[[i]]
+
+deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz = "Asia/Taipei")  # 
+
+howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz = "Asia/Taipei")
+print(howEarly)
+```
+
+```{r}
+student_i_section == "56"
+```
+
+```{r}
+i <- 3
+student_i_section <- examSubmissionTime$section[[i]]
+student_i_time <- examSubmissionTime$time[[i]]
+
+if (student_i_section == "56") {
+    deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz = "Asia/Taipei")
+} else {
+    deadline <- lubridate::ymd_hms("2020-05-27 17:00:00", tz = "Asia/Taipei")
+}
+
+howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz = "Asia/Taipei")
+print(howEarly)
+```
+
+```{r}
+library(purrr)
+compute_howEarly <- function(student_i_section, student_i_time) {
+    # student_i_section <- examSubmissionTime$section[[i]] student_i_time <-
+    # examSubmissionTime$time[[i]]
+    
+    if (student_i_section == "56") {
+        deadline <- lubridate::ymd_hms("2020-05-27 15:00:00", tz = "Asia/Taipei")
+    } else {
+        deadline <- lubridate::ymd_hms("2020-05-27 17:00:00", tz = "Asia/Taipei")
+    }
+    
+    howEarly <- deadline - lubridate::ymd_hms(student_i_time, tz = "Asia/Taipei")
+    # print(howEarly)
+    
+    return(howEarly)
+}
+```
+
+```{r}
+studentSequence <- 1:length(examSubmissionTime$section)
+
+list_howEarly <- map(studentSequence, ~compute_howEarly(examSubmissionTime$section[[.x]], 
+    examSubmissionTime$time[[.x]]))
+
+```
+
+```{r}
+library(magrittr)
+examSubmissionTime$howEarly <- list_howEarly %>% unlist()
+
+pick_56 <- examSubmissionTime$section == "56"
+mean(examSubmissionTime$howEarly[pick_56])
+median(examSubmissionTime$howEarly[pick_56])
+
+pick_78 <- examSubmissionTime$section == "78"
+mean(examSubmissionTime$howEarly[pick_78])
+median(examSubmissionTime$howEarly[pick_78])
+```
+
+## if…else if… else
+```{r}
+
+```
+
