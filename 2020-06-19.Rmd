@@ -1,0 +1,126 @@
+---
+title: '2020-06-19'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(lubridate)  #日期 時間
+library(purrr)  #map
+library(stringr)   #字串
+library(magrittr)  #pipe
+```
+
+
+```{r}
+if(n %%2 ==1) {
+  fvalue = -(n+1)/2
+} else{
+  fvalue = n/2
+}
+```
+
+##switch
+寫成描述的形式
+```{r}
+n<- 541
+
+conditionExpression_outcome=
+  ifelse(n %% 2==0, "even", "odd") 
+
+switch(
+  conditionExpression_outcome,
+  "even"={fvalue <- n/2}, # 偶數
+  "odd"=fvalue <- -(n+1)/2, # 奇數；只有一行指令可省略{}
+  warning("n要整數喔")  
+)
+
+print(fvalue)
+```
+
+```{r}
+result2 <-
+  {
+    x <- 2
+    y <- 3
+    if(x< 3){
+      warning("x值太小")
+    } else {
+      x**y+15
+    }
+  }
+print(result2)
+```
+
+```{r}
+myFun <- function(x,y){
+  return(x**y+15)
+}
+
+# 等同於
+myFun2 <- function(x,y){
+  x**y+15
+}
+
+myFun(5,3) -> outcome
+myFun2(5,3) -> outcome2
+print(outcome)
+print(outcome2)
+```
+
+```{r}
+a <- c(1,2,3)
+cut(a, c(1,2,3))
+```
+
+```{r}
+grade <- sample(1:100, 10, replace=T)
+
+grade %>%
+  cut(c(-1,69,79,89,100)) -> grade
+
+levels(grade)
+
+switch(
+  as.character(grade[[1]]),   #要字串
+  "(-1,69]"={
+    print("-_-")
+    "F"},
+  "(69,79]"={
+    print("棒")
+    "C"
+    },
+  "(79,89]"={
+    print("好棒")
+    "B"
+    },
+  "(89,100]"={
+    print("好棒棒")
+    "A"
+    }
+) -> letterGrade # 有回存時要螢幕印出的訊息一定要加print
+```
+
