@@ -124,3 +124,177 @@ switch(
 ) -> letterGrade # 有回存時要螢幕印出的訊息一定要加print
 ```
 
+```{r}
+nowtime <- glue::glue("{today()} 18:00:00") %>% ymd_hms(tz="Asia/Taipei")
+
+library(lubridate)
+library(glue)
+
+# 建立可當cutpoints的一天時間點
+cutpoints <-
+  c(
+    glue("{today()} 06:00:00"),
+    glue("{today()} 09:00:00"),
+    glue("{today()} 17:00:00"),
+    glue("{today()} 19:00:00"),
+    glue("{today()} 23:30:00"),
+    glue("{today()+days(1)} 01:00:00")
+  )
+cutpoints %>%
+  ymd_hms(tz="Asia/Taipei") -> cutpoints
+
+## 將nowtime轉成它對應的時段是"morning", "evening", 或其他。
+cut(nowtime, cutpoints) -> nowtime
+levels(nowtime)[c(1,3,5)] <-
+  c("morning","evening","jazz time")
+
+## 使用switch決定要做什麼事
+switch(
+  as.character(nowtime),
+  "morning"={
+    print("要不要來閱讀點國際時事？")
+    browseURL("https://economist.com")
+  },
+  "evening"={
+    print("需不需要點餐呢？")
+    browseURL("https://www.foodpanda.com.tw/")
+  },
+  "jazz time"={
+    print("放鬆聽點Jazz。")
+    browseURL("https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt")
+  },
+  {
+    print("機器人要休息，饒了我吧～～")
+  }
+)
+```
+
+```{r}
+whatNeedToDo_butler_mom <- function(nowtime=now()){
+  library(lubridate)
+  library(glue)
+
+  cutpoints <-
+    c(
+      glue("{today()} 06:00:00"),
+      glue("{today()} 09:00:00"),
+      glue("{today()} 17:00:00"),
+      glue("{today()} 19:00:00"),
+      glue("{today()} 23:30:00"),
+      glue("{today()+days(1)} 01:00:00")
+    )
+  cutpoints %>%
+    ymd_hms(tz="Asia/Taipei") -> cutpoints
+  
+  cut(nowtime, cutpoints) -> nowtime
+  levels(nowtime)[c(1,3,5)] <-
+    c("morning","evening","jazz time")
+  
+  switch(
+    as.character(nowtime),
+    "morning"={
+      print("要不要來閱讀點國際時事？")
+      browseURL("https://economist.com")
+    },
+    "evening"={
+      print("需不需要點餐呢？")
+      browseURL("https://www.foodpanda.com.tw/")
+    },
+    "jazz time"={
+      print("放鬆聽點Jazz。")
+      browseURL("https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt")
+    },
+    {
+      print("機器人要休息，饒了我吧～～")
+    }
+  )
+}
+
+ymd_hms(glue::glue("{today()} 08:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()} 14:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()} 18:00:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+
+ymd_hms(glue::glue("{today()+days(1)} 00:20:00"),tz="Asia/Taipei") %>%
+  whatNeedToDo_butler_mom()
+```
+
+##logical condition
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(myAnswer == correctAnswer){ # 只取用第一個T/F
+  print("你答對了")
+}
+```
+
+all(全部都要) any(只有一個就可)
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(all(myAnswer == correctAnswer)){ # 要全TRUE
+  print("你答對了")
+}
+```
+
+```{r}
+if(any(myAnswer == correctAnswer)){ # 只要有一個TRUE
+  print("裡頭有數字是對的")
+}
+```
+
+&&(兩個and) 
+||(兩個all)(算比較快)
+```{r}
+myAnswer <- c(1,2,3)
+correctAnswer <- factor(c(1,2,3))
+
+if(is.factor(myAnswer) && all(myAnswer==correctAnswer)){
+  print("答對了")
+  10
+} else {
+  print("答錯了")
+  0
+}-> myGrade
+myGrade
+```
+
+```{r}
+myAge <- 67
+myChildrenNumber <- 5
+
+if(myAge >=65 | myChildrenNumber >3){
+  "符合申請資格"
+} else {
+  warning("不符合申請資格")
+}
+
+if(myAge >=65 ||  myChildrenNumber >3){
+  "符合申請資格"
+} else {
+  warning("不符合申請資格")
+}
+```
+
+```{r}
+x <- c(2,5,10,-21,3,8)
+ifelse(x %% 2==0, "even", "odd")
+```
+
+```{r}
+y <- sample(40:100,20, replace=T)
+dplyr::case_when(
+  y < 60 ~ "F",
+  60<=y & y < 70 ~"D",
+  70<=y & y < 80 ~"C",
+  80<=y & y < 90 ~"B",
+  90<=y ~ "A"
+)
+```
+
