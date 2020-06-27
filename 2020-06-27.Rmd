@@ -1,0 +1,156 @@
+---
+title: '2020-06-27'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+library(lubridate)  #日期 時間
+library(purrr)  #map
+library(stringr)   #字串
+library(magrittr)  #pipe
+```
+
+##Iteration 迴圈
+```{r}
+sampleData <- list(
+  list("男", 45), list("女", 32), list("男",50), list("男",33), list("女", 21)
+)
+```
+
+```{r}
+# 前三筆性別
+sampleData[[1]][[1]]
+sampleData[[2]][[1]]
+sampleData[[3]][[1]]
+```
+
+```{r}
+# 串接寫法(I): external dispatch
+sampleData[[1]] %>% {.[[1]]} 
+sampleData[[2]] %>% {.[[1]]}
+sampleData[[3]] %>% {.[[1]]}
+
+map(sampleData, ~{.x[[1]]})
+
+# 串接寫法(II): internal dispatch
+1 %>% {sampleData[[.]][[1]]}  
+2 %>% {sampleData[[.]][[1]]}  
+3 %>% {sampleData[[.]][[1]]}
+
+map(1:5, ~{sampleData[[.x]][[1]]})
+# map在單維度遞迴時，.x也可以只寫.
+map(1:5, ~{sampleData[[.]][[1]]})
+```
+
+```{r}
+eggs <- rep("雞蛋x1", 8)
+
+fryEgg <- function(egg){
+  str_replace(egg, "雞蛋", "荷包蛋")
+}
+
+# external dispatch
+eggs[[1]] %>% fryEgg(.)
+eggs[[2]] %>% fryEgg(.)
+eggs[[3]] %>% fryEgg(.)
+
+map(eggs, ~fryEgg(.x)) -> friedEggs1
+
+# internal dispatch
+1 %>% {fryEgg(eggs[[.]])}
+2 %>% {fryEgg(eggs[[.]])}
+3 %>% {fryEgg(eggs[[.]])}
+
+map(1:8, ~{fryEgg(eggs[[.]])}) -> friedEggs2
+```
+
+vectorized function
+```{r}
+grade <- c(45, 74, NA)
+
+i<-3
+
+grade_i <- grade[[i]]
+if(!is.na(grade_i)){
+  if(grade_i >= 60){
+    "P"
+  } else if(grade_i < 60 ) {
+    "F"
+  }
+} else {
+  "缺考"
+}
+```
+
+```{r}
+pass_or_fail <- function(grade_i){
+  if(!is.na(grade_i)){
+    if(grade_i >= 60){
+      "P"
+    } else if(grade_i < 60 ) {
+      "F"
+    }
+  } else {
+    "缺考"
+  }
+}
+```
+
+```{r}
+pass_or_fail(grade[[1]])
+pass_or_fail(grade[[2]])
+pass_or_fail(grade[[3]])
+
+# 可否直接input整個grade vector
+warning("不是vectorised function")
+pass_or_fail(grade)
+```
+
+```{r}
+grade[[1]] %>% {pass_or_fail(.)}
+grade[[2]] %>% {pass_or_fail(.)}
+grade[[3]] %>% {pass_or_fail(.)}
+
+map(grade, ~{pass_or_fail(.)}) # map to list
+
+map_chr(grade, ~{pass_or_fail(.)}) # map to atom. vectof of class character
+
+map_pass_fail <- function(grade){
+  map_chr(grade, ~{pass_or_fail(.)})
+}
+```
+
+```{r}
+map_pass_fail(grade)
+```
+
+```{r}
+jsonlite::fromJSON("https://www.dropbox.com/s/7myzzdnoor21hye/courseStructure2.json?dl=1") -> courseStructure
+```
+
+##for loop
