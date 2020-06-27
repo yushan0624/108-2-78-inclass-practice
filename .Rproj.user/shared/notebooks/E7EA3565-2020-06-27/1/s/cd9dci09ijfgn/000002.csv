@@ -1,0 +1,4 @@
+"0","output <- vector(""character"", 10)"
+"0","for(.x in 1:10){"
+"0","  toast_withEggHam(toast=toast[[.x]], egg=eggs[[.x]], ham=ham[[.x]]) -> output[[.x]]"
+"0","}"

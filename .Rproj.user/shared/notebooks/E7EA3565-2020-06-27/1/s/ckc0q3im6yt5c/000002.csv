@@ -1,0 +1,8 @@
+"0","map_chr(grade, ~{pass_or_fail(.)}) # map to atom. vectof of class character
+"
+"1","[1]"
+"1"," ""F""   "
+"1"," ""P""   "
+"1"," ""缺考"""
+"1","
+"
