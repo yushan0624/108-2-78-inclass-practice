@@ -297,5 +297,33 @@ names(output) <- nameVector
 print(output)
 ```
 
+##while(長度是未知的)
 
+```{r}
+sum <- 0
+for(i in 1:100){
+  newToss <- sample(c("正","反"), 1, replace=T)
+  if(newToss == "正"){
+    sum <- sum+1
+  }
+  print(glue::glue("已擲{i}次得到{sum}次正面"))
+  if(sum==5){   #跳出迴圈的條件
+    break
+  }
+}
+```
+
+while = for+break應用
+```{r}
+sum <- 0
+count <- 0 # 計數器
+while(sum<5){    #留在迴圈的條件
+  count <- count+1 # 計數器+1
+  newToss <- sample(c("正","反"), 1, replace=T)
+  if(newToss == "正"){
+    sum <- sum+1
+  }
+  print(glue::glue("已擲{count}次得到{sum}次正面"))
+}
+```
 
